@@ -9,7 +9,8 @@ npm run build
 # 进入生成的文件夹
 cd docs/.vitepress/dist
 
-git status
-git add .
+git init
+git add -A
 git commit -m 'deploy'
-git push
+
+git push -f https://github.com/Leon-Amazing/css3.git master:gh-pages
