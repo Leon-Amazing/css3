@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>mix-blend-mode-overlay</title>
+  <style>
+    ui-overlay {
+      position: absolute;
+      background: red;
+      mix-blend-mode: overlay;
+      z-index: 9;
+    }
+
+    p {
+      color: gray;
+    }
+  </style>
+</head>
+
+<body>
+  <h4>颜色叠加（适合浅色）</h4>
+  <p><input type="search" placeholder="输入内容回车搜索"></p>
+  <p id="target">
+    可以在上面的输入框中输入任意这段内容中出现的文字或者单词，在输入内容并按回车键确认后，就会看到文字有高亮显示效果。但是，这种高亮显示效果不是通过包裹标签元素实现的，而是将色块直接覆盖在文字上面，然后通过叠加这种混合模式实现的。
+  </p>
+</body>
+
+<script>
+  var eleSearch = document.querySelector('input[type="search"]');
+  var eleTraget = document.querySelector('#target');
+
+  eleSearch.addEventListener('input', function () {
+    var text = eleTraget.textContent;
+
+    [].slice.call(document.querySelectorAll('ui-overlay')).forEach(function (overlay) {
+      overlay.remove();
+    });
+
+    // 匹配处理
+    var value = this.value.trim(); // 输入的值
+    var length = value.length;     // 输入的值长度
+
+    if (!length) {
+      return;
+    }
+    console.log(value, length);
+
+    var arrMatchs = text.split(value); // 按输入的值分割成数组
+
+    console.log(arrMatchs, 'arrMatchs');
+
+
+    if (arrMatchs.length > 1) {
+      var start = 0;
+      arrMatchs.forEach(function (parts, index) {
+        if (index == arrMatchs.length - 1) {
+          return;
+        }
+        var range = document.createRange();
+        start += parts.length;
+        range.setStart(eleTraget.firstChild, start); //eleTraget.firstChild所有的文本
+        range.setEnd(eleTraget.firstChild, start + length);
+
+        var bound = range.getBoundingClientRect();
+
+        var eleOverlay = document.createElement('ui-overlay');
+        document.body.appendChild(eleOverlay);
+
+        eleOverlay.style.left = bound.left + 'px';
+        eleOverlay.style.top = (bound.top + window.pageYOffset) + 'px';
+        eleOverlay.style.width = bound.width + 'px';
+        eleOverlay.style.height = bound.height + 'px';
+
+        start += length;
+      });
+    }
+  });
+</script>
+
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>background-blend-mode-multiply</title>
+  <style>
+    .pattern {
+      width: 300px;
+      height: 180px;
+      --gradient: transparent 20px, lightcoral 0 40px, transparent 0 60px;
+      background: repeating-linear-gradient(var(--gradient)), repeating-linear-gradient(90deg, var(--gradient)), floralwhite;
+      background-blend-mode: multiply;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="pattern"></div>
+</body>
+
+</html>
